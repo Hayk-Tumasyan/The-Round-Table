@@ -51,14 +51,13 @@ const Navbar: React.FC = () => {
     setIsMenuOpen(false);
   };
 
-  // Helper to close menu and scroll to top on mobile nav
   const handleMobileNav = () => {
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
+    <nav className="sticky top-0 z-[100] bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
       <Link to="/" className="flex items-center space-x-3 shrink-0" onClick={() => setIsMenuOpen(false)}>
         <div className="w-8 h-8 md:w-10 md:h-10 bg-amber-600 rounded-lg flex items-center justify-center shadow-lg lantern-glow">
           <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1c120d]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 11a1 1 0 11-2 0H2a1 1 0 110-2h1a1 1 0 110 2zm1.464 4.95a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707z" /></svg>
@@ -66,7 +65,6 @@ const Navbar: React.FC = () => {
         <span className="text-lg md:text-2xl font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
       </Link>
       
-      {/* Desktop Links */}
       <div className="hidden lg:flex space-x-8 xl:space-x-10 font-bold uppercase text-xs tracking-[0.2em]">
         <Link to="/" className={`${isActive('/')} transition-all duration-300 py-1`}>{t('nav.chambers')}</Link>
         <Link to="/community" className={`${isActive('/community')} transition-all duration-300 py-1`}>{t('nav.great_hall')}</Link>
@@ -109,18 +107,22 @@ const Navbar: React.FC = () => {
           </div>
         )}
 
-        {/* Hamburger Toggle */}
         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-main transition-colors active:bg-citadel-card">
           {isMenuOpen ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* --- REFACTORED MOBILE MENU OVERLAY --- */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-[72px] z-[40] bg-citadel-main animate-in slide-in-from-right lg:hidden overflow-y-auto custom-scrollbar">
+        // FIXED: Added z-[110] to stay above the navbar, and solid bg-citadel-main
+        <div className="fixed inset-0 top-0 z-[110] bg-citadel-main animate-in slide-in-from-right lg:hidden overflow-y-auto custom-scrollbar">
+          <div className="flex justify-end p-6">
+             <button onClick={() => setIsMenuOpen(false)} className="p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-card">
+               <CloseIcon className="w-5 h-5" />
+             </button>
+          </div>
+          
           <div className="p-6 pb-20 space-y-10">
-            
-            {/* Section 1: Main Pages */}
+            {/* Main Navigation */}
             <div className="space-y-2">
               <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.provinces')}</p>
               <Link to="/" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
@@ -141,7 +143,7 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Section 2: Info & Support */}
+            {/* Info & Support */}
             <div className="space-y-2">
               <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.decrees')}</p>
               <Link to="/about" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
@@ -154,9 +156,8 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Section 3: User Account & System */}
+            {/* Account Management */}
             <div className="pt-8 border-t border-citadel-border space-y-8">
-               {/* Preferences Row */}
                <div className="flex items-center justify-between gap-4">
                  <button onClick={toggleTheme} className="flex-grow flex items-center justify-center gap-3 py-4 rounded-xl bg-citadel-card border border-citadel-border text-citadel-accent font-bold uppercase text-[10px] tracking-widest">
                     {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -171,7 +172,6 @@ const Navbar: React.FC = () => {
                  </div>
                </div>
 
-               {/* Auth/Profile Section */}
                {user ? (
                 <div className="space-y-4">
                    <div className="p-6 bg-citadel-card rounded-2xl border border-citadel-border shadow-inner">
@@ -189,11 +189,6 @@ const Navbar: React.FC = () => {
                         <Link to="/inventory" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-3 bg-citadel-main border border-citadel-border rounded-lg text-[9px] font-bold uppercase text-citadel-steel">
                           <Package className="w-3 h-3" /> Inventory
                         </Link>
-                        {user.role === 'admin' && (
-                          <Link to={RoutePath.Admin} onClick={handleMobileNav} className="col-span-2 flex items-center justify-center gap-2 py-3 bg-red-900/10 border border-red-900/20 rounded-lg text-[9px] font-bold uppercase text-red-500">
-                            <ShieldCheck className="w-3 h-3" /> Tower of the Hand
-                          </Link>
-                        )}
                       </div>
                    </div>
                    <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full py-5 bg-red-900/10 text-red-500 font-bold uppercase text-xs tracking-[0.2em] border border-red-900/20 rounded-2xl transition-all active:scale-95">
