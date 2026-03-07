@@ -95,7 +95,7 @@ const Home: React.FC = () => {
                   <span className="text-[8px] md:text-[9px] uppercase tracking-widest px-2 py-1 rounded border border-citadel-border text-citadel-muted">
                     {t(`shop.rarity.${product.rarity}`)}
                   </span>
-                  <span className="text-citadel-accent font-bold text-sm md:text-base">{product.price}g</span>
+                  <span className="text-amber-500 font-bold text-2xl tracking-tighter medieval-font">{product.price}g</span>
                 </div>
               </div>
             </Link>

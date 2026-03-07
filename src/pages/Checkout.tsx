@@ -49,9 +49,9 @@ const Checkout: React.FC = () => {
     return (
       <div className="max-w-3xl mx-auto px-6 py-32 text-center bg-citadel-main min-h-[70vh] flex flex-col justify-center">
         <ShoppingBag className="w-16 h-16 text-citadel-border mx-auto mb-8" />
-        <h1 className="text-3xl font-bold medieval-font text-citadel-steel mb-4 uppercase">{t('checkout.empty_title')}</h1>
+        <h1 className="text-amber-500 font-bold text-2xl tracking-tighter medieval-font">{t('checkout.empty_title')}</h1>
         <p className="text-citadel-muted mb-8 italic">{t('checkout.empty_subtitle')}</p>
-        <Link to="/shop" className="text-citadel-accent uppercase text-xs font-bold underline">{t('nav.armory')}</Link>
+        <Link to="/shop" className="text-amber-500 uppercase text-xs font-bold underline">{t('nav.armory')}</Link>
       </div>
     );
   }
