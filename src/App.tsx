@@ -124,7 +124,7 @@ const Navbar: React.FC = () => {
           <div className="px-4 py-4 flex justify-between items-center border-b border-citadel-border bg-citadel-card/50">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center"><HomeIcon className="w-4 h-4 text-white" /></div>
-              <span className="text-lg font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
+              <span className="text-lg font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-amber-500">Table</span></span>
             </div>
             <button onClick={() => setIsMenuOpen(false)} className="p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-card hover:bg-citadel-main transition-colors">
               <CloseIcon className="w-6 h-6" />
