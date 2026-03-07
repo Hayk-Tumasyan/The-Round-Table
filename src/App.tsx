@@ -17,7 +17,7 @@ import Profile from './pages/Profile';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ScrollToTop from './components/ScrollToTop'; 
-import { ShieldCheck, LogOut, ShoppingBag, Globe, Sun, Moon, Menu, X as CloseIcon } from 'lucide-react';
+import { ShieldCheck, LogOut, ShoppingBag, Globe, Sun, Moon, Menu, X as CloseIcon, User as UserIcon, BookOpen, MessageCircle, Package, Home as HomeIcon } from 'lucide-react';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
@@ -51,6 +51,12 @@ const Navbar: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  // Helper to close menu and scroll to top on mobile nav
+  const handleMobileNav = () => {
+    setIsMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
       <Link to="/" className="flex items-center space-x-3 shrink-0" onClick={() => setIsMenuOpen(false)}>
@@ -60,6 +66,7 @@ const Navbar: React.FC = () => {
         <span className="text-lg md:text-2xl font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
       </Link>
       
+      {/* Desktop Links */}
       <div className="hidden lg:flex space-x-8 xl:space-x-10 font-bold uppercase text-xs tracking-[0.2em]">
         <Link to="/" className={`${isActive('/')} transition-all duration-300 py-1`}>{t('nav.chambers')}</Link>
         <Link to="/community" className={`${isActive('/community')} transition-all duration-300 py-1`}>{t('nav.great_hall')}</Link>
@@ -94,67 +101,109 @@ const Navbar: React.FC = () => {
             <button onClick={logout} className="p-2 text-citadel-muted hover:text-red-500 transition-colors"><LogOut className="w-4 h-4" /></button>
           </div>
         ) : (
-          <div className="hidden sm:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
-            <Link to="/login" className="text-citadel-muted hover:text-citadel-steel font-bold text-[10px] md:text-xs uppercase tracking-widest">
-              {t('common.login')}
-            </Link>
-            {/* FIXED: Restored the Register Button with refined styling */}
+          <div className="hidden sm:flex items-center space-x-4">
+            <Link to="/login" className="text-citadel-muted hover:text-citadel-steel font-bold text-xs uppercase tracking-widest">{t('common.login')}</Link>
             <Link to="/register" className="hidden md:block px-5 py-2.5 bg-red-800 hover:bg-red-700 text-white font-bold rounded-md text-[10px] uppercase tracking-widest border border-red-700/50 transition-all shrink-0">
               {t('common.register')}
             </Link>
           </div>
         )}
 
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-main">
+        {/* Hamburger Toggle */}
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-main transition-colors active:bg-citadel-card">
           {isMenuOpen ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
+      {/* --- REFACTORED MOBILE MENU OVERLAY --- */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-[72px] z-[40] bg-citadel-main animate-in slide-in-from-right lg:hidden overflow-y-auto">
-          <div className="p-8 space-y-8">
-            <div className="flex flex-col space-y-6 font-bold uppercase text-lg tracking-[0.2em]">
-              <Link to="/" onClick={() => setIsMenuOpen(false)} className={`${location.pathname === '/' ? 'text-citadel-accent' : 'text-citadel-muted'}`}>{t('nav.chambers')}</Link>
-              <Link to="/community" onClick={() => setIsMenuOpen(false)} className={`${location.pathname === '/community' ? 'text-citadel-accent' : 'text-citadel-muted'}`}>{t('nav.great_hall')}</Link>
-              <Link to="/shop" onClick={() => setIsMenuOpen(false)} className={`${location.pathname === '/shop' ? 'text-citadel-accent' : 'text-citadel-muted'}`}>{t('nav.armory')}</Link>
-              <Link to="/tournaments" onClick={() => setIsMenuOpen(false)} className={`${location.pathname === '/tournaments' ? 'text-citadel-accent' : 'text-citadel-muted'}`}>{t('nav.tournaments')}</Link>
-              {user?.role === 'admin' && (<Link to={RoutePath.Admin} onClick={() => setIsMenuOpen(false)} className="text-red-700 flex items-center gap-2"><ShieldCheck className="w-5 h-5" />{t('nav.admin')}</Link>)}
+        <div className="fixed inset-0 top-[72px] z-[40] bg-citadel-main animate-in slide-in-from-right lg:hidden overflow-y-auto custom-scrollbar">
+          <div className="p-6 pb-20 space-y-10">
+            
+            {/* Section 1: Main Pages */}
+            <div className="space-y-2">
+              <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.provinces')}</p>
+              <Link to="/" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <HomeIcon className="w-5 h-5 text-citadel-accent" />
+                <span className="font-bold uppercase text-sm tracking-widest">{t('nav.chambers')}</span>
+              </Link>
+              <Link to="/community" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <BookOpen className="w-5 h-5 text-citadel-accent" />
+                <span className="font-bold uppercase text-sm tracking-widest">{t('nav.great_hall')}</span>
+              </Link>
+              <Link to="/shop" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <ShoppingBag className="w-5 h-5 text-citadel-accent" />
+                <span className="font-bold uppercase text-sm tracking-widest">{t('nav.armory')}</span>
+              </Link>
+              <Link to="/tournaments" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <ShieldCheck className="w-5 h-5 text-citadel-accent" />
+                <span className="font-bold uppercase text-sm tracking-widest">{t('nav.tournaments')}</span>
+              </Link>
             </div>
 
-            <div className="pt-8 border-t border-citadel-border space-y-6">
-               <div className="flex items-center justify-between">
-                 <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Theme</span>
-                 <button onClick={toggleTheme} className="p-3 rounded-xl bg-citadel-card border border-citadel-border text-citadel-accent">
-                    {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {/* Section 2: Info & Support */}
+            <div className="space-y-2">
+              <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.decrees')}</p>
+              <Link to="/about" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <ShieldCheck className="w-5 h-5 text-citadel-muted" />
+                <span className="font-bold uppercase text-xs tracking-widest">{t('footer.about_us')}</span>
+              </Link>
+              <Link to="/contact" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl hover:bg-citadel-card text-citadel-steel transition-colors border border-transparent hover:border-citadel-border">
+                <MessageCircle className="w-5 h-5 text-citadel-muted" />
+                <span className="font-bold uppercase text-xs tracking-widest">{t('footer.contact')}</span>
+              </Link>
+            </div>
+
+            {/* Section 3: User Account & System */}
+            <div className="pt-8 border-t border-citadel-border space-y-8">
+               {/* Preferences Row */}
+               <div className="flex items-center justify-between gap-4">
+                 <button onClick={toggleTheme} className="flex-grow flex items-center justify-center gap-3 py-4 rounded-xl bg-citadel-card border border-citadel-border text-citadel-accent font-bold uppercase text-[10px] tracking-widest">
+                    {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                    {theme === 'dark' ? "Light Mode" : "Dark Mode"}
                  </button>
-               </div>
-               <div className="flex items-center justify-between">
-                 <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Language</span>
-                 <div className="flex gap-2">
+                 <div className="flex gap-1">
                     {['en', 'hy', 'ru'].map(lang => (
-                      <button key={lang} onClick={() => changeLanguage(lang)} className={`px-4 py-2 rounded-lg border uppercase text-xs font-bold ${i18n.language === lang ? 'bg-citadel-accent text-citadel-main border-citadel-accent' : 'bg-citadel-card text-citadel-muted border-citadel-border'}`}>
+                      <button key={lang} onClick={() => changeLanguage(lang)} className={`px-4 py-4 rounded-xl border uppercase text-[10px] font-bold ${i18n.language === lang ? 'bg-citadel-accent text-citadel-main border-citadel-accent' : 'bg-citadel-card text-citadel-muted border-citadel-border'}`}>
                         {lang}
                       </button>
                     ))}
                  </div>
                </div>
-            </div>
 
-            <div className="pt-8">
-              {user ? (
+               {/* Auth/Profile Section */}
+               {user ? (
                 <div className="space-y-4">
-                   <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="block p-4 bg-citadel-card rounded-xl border border-citadel-border">
-                      <p className="text-citadel-steel font-bold uppercase text-sm">{user.username}</p>
-                      <p className="text-citadel-accent text-[10px] uppercase tracking-widest">{t('common.knight')}</p>
-                   </Link>
-                   <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full py-4 text-red-500 font-bold uppercase text-xs tracking-widest border border-red-900/20 rounded-xl">
+                   <div className="p-6 bg-citadel-card rounded-2xl border border-citadel-border shadow-inner">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="w-12 h-12 rounded-full bg-citadel-main border border-citadel-border flex items-center justify-center text-citadel-accent"><UserIcon className="w-6 h-6" /></div>
+                        <div>
+                          <p className="text-citadel-steel font-bold uppercase text-sm">{user.username}</p>
+                          <p className="text-citadel-accent text-[9px] uppercase tracking-widest font-bold">{user.role === 'admin' ? t('common.hand_of_the_king') : t('common.knight')}</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link to="/profile" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-3 bg-citadel-main border border-citadel-border rounded-lg text-[9px] font-bold uppercase text-citadel-steel">
+                          <UserIcon className="w-3 h-3" /> Profile
+                        </Link>
+                        <Link to="/inventory" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-3 bg-citadel-main border border-citadel-border rounded-lg text-[9px] font-bold uppercase text-citadel-steel">
+                          <Package className="w-3 h-3" /> Inventory
+                        </Link>
+                        {user.role === 'admin' && (
+                          <Link to={RoutePath.Admin} onClick={handleMobileNav} className="col-span-2 flex items-center justify-center gap-2 py-3 bg-red-900/10 border border-red-900/20 rounded-lg text-[9px] font-bold uppercase text-red-500">
+                            <ShieldCheck className="w-3 h-3" /> Tower of the Hand
+                          </Link>
+                        )}
+                      </div>
+                   </div>
+                   <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full py-5 bg-red-900/10 text-red-500 font-bold uppercase text-xs tracking-[0.2em] border border-red-900/20 rounded-2xl transition-all active:scale-95">
                      {t('common.logout')}
                    </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-4">
-                   <Link to="/login" onClick={() => setIsMenuOpen(false)} className="py-4 text-center text-citadel-muted font-bold uppercase text-xs border border-citadel-border rounded-xl">{t('common.login')}</Link>
-                   <Link to="/register" onClick={() => setIsMenuOpen(false)} className="py-4 text-center bg-red-800 text-white font-bold uppercase text-xs rounded-xl">{t('common.register')}</Link>
+                <div className="flex flex-col gap-4">
+                   <Link to="/login" onClick={handleMobileNav} className="py-5 text-center text-citadel-steel font-bold uppercase text-xs border border-citadel-border rounded-2xl bg-citadel-card">{t('common.login')}</Link>
+                   <Link to="/register" onClick={handleMobileNav} className="py-5 text-center bg-red-800 text-white font-bold uppercase text-xs rounded-2xl shadow-xl shadow-red-950/20">{t('common.register')}</Link>
                 </div>
               )}
             </div>
