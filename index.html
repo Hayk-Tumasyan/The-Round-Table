@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Round Table</title>
+    
+    <!-- PWA Requirements -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f0a08">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055644.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- NEW: Tailwind Configuration to use our Medieval Variables -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        citadel: {
+                            main: 'var(--wood-dark)',
+                            card: 'var(--wood-medium)',
+                            border: 'var(--wood-light)',
+                            steel: 'var(--steel)',
+                            muted: 'var(--steel-muted)',
+                            lantern: 'var(--lantern)',
+                            blood: 'var(--blood)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* THE DARK REALM (Default) */
+        :root {
+            --wood-dark: #0f0a08;
+            --wood-medium: #1c120d;
+            --wood-light: #2a1b15;
+            --steel: #e2e8f0;
+            --steel-muted: #94a3b8;
+            --lantern: #f59e0b;
+            --blood: #991b1b;
+        }
+
+        /* THE LIGHT REALM (Parchment & Stone) */
+        :root.light {
+            --wood-dark: #f4f1ea;    /* Light Parchment Background */
+            --wood-medium: #ffffff;  /* Pure White Cards */
+            --wood-light: #dcd3bd;   /* Stone-colored borders */
+            --steel: #1c120d;        /* Ink-colored text */
+            --steel-muted: #57534e;  /* Faded ink text */
+            --lantern: #b45309;      /* Deeper amber for readability */
+            --blood: #b91c1c;        /* Clear red */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--wood-dark);
+            color: var(--steel);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .medieval-font { font-family: 'Cinzel', serif; }
+
+        /* Custom scrollbar to match the theme */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--wood-dark); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--wood-light); border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>

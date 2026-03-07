@@ -1,0 +1,232 @@
+{
+  "common": {
+    "login": "Login",
+    "register": "Take the Oath",
+    "logout": "Logout",
+    "hand_of_the_king": "Hand of the King",
+    "knight": "Knight",
+    "loading": "Consulting the library...",
+    "fealty": "Fealty",
+    "hearts": "Hearts",
+    "scrolls": "Scrolls",
+    "back": "Return",
+    "cancel": "Burn Parchment",
+    "save": "Save Changes",
+    "delete": "Banish",
+    "region": "Region",
+    "rank": "Rank",
+    "noble": "Noble",
+    "global": "Global",
+    "discard": "Discard",
+    "save_button": "Save Changes"
+  },
+  "nav": {
+    "chambers": "Chambers",
+    "great_hall": "Great Hall",
+    "armory": "The Armory",
+    "tournaments": "Tournaments",
+    "admin": "Tower of the Hand"
+  },
+  "profile": {
+    "title": "My Profile",
+    "bio_label": "The Knight's Chronicles (Bio)",
+    "stats_title": "Realm Statistics",
+    "view_inventory": "Enter the Vault (Orders)",
+    "save_button": "Save Changes",
+    "save_success": "Archived",
+    "inventory_sub": "View thy claimed artifacts and ledger status"
+  },
+  "footer": {
+    "description": "A modern sanctuary for the virtuous and the brave. Whether you seek legendary artifacts or the warmth of a digital hearth, your place is here.",
+    "provinces": "The Provinces",
+    "decrees": "Imperial Decrees",
+    "about_us": "About the Citadel",
+    "laws": "Laws of the Land",
+    "privacy": "Privacy Parchment",
+    "contact": "Contact the King",
+    "rights": "All rights reserved.",
+    "motto": "Steel forged in the digital age"
+  },
+  "home": {
+    "hero": {
+      "badge": "The Sovereign Sanctuary",
+      "title_main": "Steel &",
+      "title_accent": "Splendor",
+      "subtitle": "\"In this court, we trade not only gold, but the stories that define an age.\"",
+      "cta_shop": "Open the Armory",
+      "cta_community": "Enter the Hall"
+    },
+    "treasures": {
+      "title": "Exotic Treasures",
+      "subtitle": "Curated artifacts from the edge of the known world.",
+      "link": "Browse Merchant Quarter"
+    }
+  },
+  "community": {
+    "banner_title": "The Great Hall",
+    "active_decrees": "Active Decrees",
+    "scribe_button": "Scribe a Decree",
+    "new_decree": "New Decree",
+    "title_placeholder": "Title of your decree...",
+    "content_placeholder": "Speak your truth, Knight...",
+    "post_button": "Seal and Post",
+    "empty": "No decrees have been scribed yet.",
+    "voices": "Voices in the Hall",
+    "comment_placeholder": "Speak your mind, traveler...",
+    "comment_button": "Post Response",
+    "must_login": "You must Approach the Gates to join the discussion.",
+    "sort_new": "Newest",
+    "sort_top": "Top",
+    "error_post": "The ink has run dry. Could not post.",
+    "error_comment": "The scroll is torn. Could not comment."
+  },
+  "contact": {
+    "title_main": "The Scrying",
+    "title_accent": "Pool",
+    "subtitle": "Direct communication with the Hand of the King",
+    "status_connected": "Bridge Connected",
+    "empty_msg": "\"Speak, Knight. Thy words appear instantly upon the King's ledger.\"",
+    "must_login_title": "The King only speaks with Knights",
+    "must_login_subtitle": "Please Approach the Gates (Login) to use the Scrying Pool.",
+    "label_me": "Your Word",
+    "label_king": "Hand of the King",
+    "input_placeholder": "Type your message to the throne...",
+    "error_send": "The scrying pool is murky. Failed to send."
+  },
+  "shop": {
+    "title": "The Armory",
+    "subtitle": "Every blade has a name, every shield a history.",
+    "inspect": "Inspect",
+    "buy_now": "Buy Now",
+    "value": "Value",
+    "acquire": "Acquire Vessel",
+    "oracle_appraisal": "Oracle's Appraisal",
+    "oracle_default": "The stars are obscured, my lord. I cannot read the portents at this time.",
+    "stock_msg": "in stock",
+    "out_of_stock": "OUT OF STOCK",
+    "remaining_msg": "Artifacts remaining in the merchant's crate",
+    "categories": {
+      "All": "All",
+      "Weapon": "Weapon",
+      "Armor": "Armor",
+      "Artifact": "Artifact",
+      "Consumable": "Consumable"
+    },
+    "rarity": {
+      "Common": "Common",
+      "Rare": "Rare",
+      "Epic": "Epic",
+      "Legendary": "Legendary"
+    },
+    "items": {
+      "anduril": { "name": "Andúril", "desc": "The Flame of the West. Forged from the shards of Narsil." },
+      "longclaw": { "name": "Longclaw", "desc": "A Valyrian steel bastard sword wielded by the White Wolf." },
+      "lancelot-shield": { "name": "Shield of Lancelot", "desc": "A heavy steel kite shield embossed with silver lions." },
+      "glamdring": { "name": "Baratheon Warhammer", "desc": "The spike used to deal a crushing blow against Rhaegar Targaryen." },
+      "baratheon-armor": { "name": "Baratheon Plate", "desc": "Heavy steel plate featuring prominent stag antler motifs." },
+      "dragon-scale-plate": { "name": "Dragon Scale Plate", "desc": "Armor crafted from the scales of an ancient red dragon." }
+    }
+  },
+  "tournaments": {
+    "title": "The Tourney Grounds",
+    "subtitle": "Real-world gatherings for the brave and virtuous.",
+    "fray_button": "Enter the Fray",
+    "events": {
+      "1": { "title": "Grand Joust of Camelot", "desc": "Knights gather to compete for the Golden Laurel." },
+      "2": { "title": "Melee at Ironhold", "desc": "A brutal test of strength in the mud and blood." }
+    }
+  },
+  "checkout": {
+    "title": "The Ledger",
+    "added_to_sack": "Artifact Secured!",
+    "continue_quest": "Continue Quest",
+    "view_sack": "View My Sack",
+    "empty_title": "Thy Sack is Empty",
+    "empty_subtitle": "Thy sack is empty of spoils. Return to the merchant quarter.",
+    "abandon": "Abandon All Spoils",
+    "summary_title": "Imperial Sum",
+    "pay_button": "Proceed to Payment",
+    "courier_title": "Courier's Instructions (Shipping)",
+    "address_label": "Citadel Address",
+    "address_placeholder": "Street and house number",
+    "city_label": "City / Province",
+    "city_placeholder": "e.g. Yerevan",
+    "zip_label": "Imperial Postal Code",
+    "zip_placeholder": "e.g. 0010",
+    "security_msg": "Safe transit guaranteed by the King's Guard.",
+    "tribute_accepted": "Tribute Accepted",
+    "tribute_msg": "Thy artifacts have been reserved in the royal vault and are awaiting the Courier.",
+    "my_inventory_btn": "My Inventory",
+    "return_home_btn": "Return Home",
+    "sack_contents": "Thy Sack Contents",
+    "qty": "Qty",
+    "remove": "Remove",
+    "error_address": "The Courier needs thy full address to deliver the artifacts.",
+    "error_mint": "The Imperial Mint is currently under maintenance. Please wait."
+  },
+  "inventory": {
+    "title": "My Inventory",
+    "subtitle": "The Personal Chronicles",
+    "order_id": "Order ID",
+    "gold_spent": "Gold Spent",
+    "return_profile": "Return to Profile",
+    "empty_msg": "Thy record is empty. Claim legendary items at the Armory.",
+    "visit_shop": "Visit the Shop",
+    "verifying": "Verifying Tribute with the Imperial Mint...",
+    "status": {
+      "Pending": "Pending",
+      "Shipped": "Shipped",
+      "Delivered": "Delivered"
+    }
+  },
+  "admin": {
+    "subtitle": "Maintaining order within the digital Citadel.",
+    "tabs": {
+      "posts": "Chronicles",
+      "shop": "Stock",
+      "grounds": "Grounds",
+      "orders": "Tributes",
+      "ravens": "Ravens",
+      "citizens": "Citizens"
+    },
+    "forge_title": "Forge New Artifact",
+    "forge_button": "Forge",
+    "proclaim_button": "Proclaim",
+    "confirm_banish": "Banish this decree forever?",
+    "restock_title": "Replenish Artifact",
+    "new_qty_label": "New Quantity in Crates",
+    "update_ledger": "Update Ledger",
+    "artifact_name": "Artifact Name",
+    "gold_label": "Gold",
+    "image_label": "Image URL",
+    "add_to_armory": "Add to Armory",
+    "tributes_title": "Kingdom Tributes",
+    "delivery_coords": "Delivery Coordinates",
+    "banish_artifact_confirm": "Destroy this artifact?",
+    "banish_tourney_confirm": "Abolish this tournament?",
+    "confirm_close_chat": "Are you sure you wish to close this discourse and burn the messages?"
+  },
+  "auth": {
+    "login_title": "Approach the Gates",
+    "login_subtitle": "Recite your secret code to enter the hall.",
+    "register_title": "Take the Knight's Oath",
+    "register_subtitle": "Join the order of the digital realm.",
+    "email_label": "Imperial Identity",
+    "password_label": "Secret Seal",
+    "nickname_label": "Knight's Sobriquet",
+    "email_placeholder": "knight@roundtable.com",
+    "password_placeholder": "••••••••",
+    "nickname_placeholder": "Sir Galahad",
+    "submit_login": "Enter the Hall",
+    "submit_register": "Finalize My Oath",
+    "logging_in": "Unlocking the Gates...",
+    "registering": "Recording the Vow...",
+    "not_member": "Not yet of the Order?",
+    "take_vow": "Take the Vow",
+    "is_member": "Already a member of the Round Table?",
+    "error_invalid": "The Citadel does not recognize these credentials. Verify thy email and secret seal.",
+    "error_bad_email": "That is not a valid guild email address.",
+    "error_too_many": "Too many failed attempts. The gates are barred for your protection. Try again later.",
+    "error_magical": "A magical interference occurred: "
+  }
+}

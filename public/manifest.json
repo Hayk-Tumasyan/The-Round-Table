@@ -1,0 +1,17 @@
+{
+  "short_name": "RoundTable",
+  "name": "The Round Table: Digital Citadel",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1055/1055644.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0f0a08",
+  "background_color": "#0f0a08",
+  "orientation": "portrait"
+}

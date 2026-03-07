@@ -1,0 +1,9 @@
+
+{
+  "name": "The Round Table",
+  "description": "A medieval-themed community hub and marketplace where knights gather to share quests and trade legendary artifacts.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
