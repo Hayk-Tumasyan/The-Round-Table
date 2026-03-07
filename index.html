@@ -34,26 +34,26 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* THE DARK REALM (Default) */
+        /* THE DARK REALM (Original Wood & Lantern) */
         :root {
             --wood-dark: #0f0a08;
             --wood-medium: #1c120d;
             --wood-light: #2a1b15;
             --steel: #e2e8f0;
             --steel-muted: #94a3b8;
-            --lantern: #f59e0b;
+            --lantern: #f59e0b; /* Bright Lantern Orange */
             --blood: #991b1b;
         }
 
-        /* THE LIGHT REALM (Refined Parchment & Ink) */
+        /* THE LIGHT REALM (Pure Parchment & Ink) */
         :root.light {
-            --wood-dark: #fcfaf2;    /* Brighter Parchment */
-            --wood-medium: #ffffff;  /* Pure White Cards */
-            --wood-light: #e5e0d0;   /* Stony borders */
-            --steel: #1c1917;        /* Deep Char-Ink text */
-            --steel-muted: #57534e;  /* Faded ink */
-            --lantern: #b45309;      /* Strong Amber */
-            --blood: #b91c1c;        /* Royal Red */
+            --wood-dark: #fcfaf2;    
+            --wood-medium: #ffffff;  
+            --wood-light: #e5e0d0;   
+            --steel: #1c1917;        
+            --steel-muted: #57534e;  
+            --lantern: #d97706; /* Deeper Amber for contrast on white */
+            --blood: #b91c1c;        
         }
 
         body {
@@ -64,6 +64,7 @@
         }
 
         .medieval-font { font-family: 'Cinzel', serif; }
+        .lantern-glow { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
 
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: var(--wood-dark); }

@@ -12,16 +12,16 @@ const Hero: React.FC = () => {
     <div className="relative h-[80vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img src="https://i.pinimg.com/1200x/97/77/f8/9777f83a1226a1ab8e60461c15937bd1.jpg" alt="Castle" className="w-full h-full object-cover opacity-20 scale-105" />
-        {/* Stronger gradient overlay for mobile text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-citadel-main via-citadel-main/40 to-citadel-card/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-citadel-main via-citadel-main/60 to-citadel-card/50"></div>
       </div>
       <div className="relative z-10 text-center px-6 max-w-4xl flex flex-col items-center">
         <span className="inline-block px-4 py-1.5 bg-red-900/30 border border-red-700/50 text-red-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-8">
           {t('home.hero.badge')}
         </span>
         
+        {/* FIXED: 'Splendor' is now Lantern Orange (#f59e0b) regardless of theme */}
         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold medieval-font text-white mb-8 drop-shadow-2xl leading-tight uppercase">
-          {t('home.hero.title_main')} <span className="text-citadel-accent">{t('home.hero.title_accent')}</span>
+          {t('home.hero.title_main')} <span className="text-[#f59e0b]">{t('home.hero.title_accent')}</span>
         </h1>
         
         <p className="text-lg md:text-2xl text-zinc-300 mb-12 italic max-w-2xl mx-auto leading-relaxed">
@@ -29,11 +29,11 @@ const Hero: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center w-full sm:w-auto">
-          {/* FIXED: text-white added to ensure contrast on background image */}
-          <Link to="/shop" className="px-8 md:px-10 py-5 bg-citadel-accent hover:bg-amber-500 text-white font-bold uppercase text-[10px] md:text-sm tracking-widest rounded transition-all shadow-2xl lantern-glow">
+          {/* FIXED: Primary button is now Lantern Orange with Dark Wood text */}
+          <Link to="/shop" className="px-8 md:px-10 py-5 bg-[#f59e0b] hover:bg-amber-500 text-[#0f0a08] font-bold uppercase text-[10px] md:text-sm tracking-widest rounded transition-all shadow-2xl lantern-glow">
             {t('home.hero.cta_shop')}
           </Link>
-          <Link to="/community" className="px-8 md:px-10 py-5 bg-transparent hover:bg-citadel-card text-white font-bold uppercase text-[10px] md:text-sm tracking-widest rounded border border-white/30 transition-all">
+          <Link to="/community" className="px-8 md:px-10 py-5 bg-transparent hover:bg-white/5 text-white font-bold uppercase text-[10px] md:text-sm tracking-widest rounded border border-white/30 transition-all">
             {t('home.hero.cta_community')}
           </Link>
         </div>
