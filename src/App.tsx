@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
             <div className="hidden md:flex items-center gap-4 pl-4 border-l border-citadel-border">
               <Link to="/profile" className="flex flex-col items-end group">
                 <span className="text-[10px] font-bold text-citadel-steel uppercase tracking-widest group-hover:text-citadel-accent transition-colors">{user.username}</span>
-                <span className="text-[8px] text-citadel-accent uppercase tracking-[0.2em]">{user.role === 'admin' ? t('common.hand_of_the_king') : t('common.knight')}</span>
+                <span className="text-[8px] text-amber-500 uppercase tracking-[0.2em]">{user.role === 'admin' ? t('common.hand_of_the_king') : t('common.knight')}</span>
               </Link>
               <button onClick={logout} className="p-2 text-citadel-muted hover:text-red-500 transition-colors"><LogOut className="w-4 h-4" /></button>
             </div>
