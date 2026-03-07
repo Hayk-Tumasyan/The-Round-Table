@@ -12,7 +12,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- NEW: Tailwind Configuration to use our Medieval Variables -->
     <script>
         tailwind.config = {
             theme: {
@@ -46,15 +45,15 @@
             --blood: #991b1b;
         }
 
-        /* THE LIGHT REALM (Parchment & Stone) */
+        /* THE LIGHT REALM (Refined Parchment & Ink) */
         :root.light {
-            --wood-dark: #f4f1ea;    /* Light Parchment Background */
+            --wood-dark: #fcfaf2;    /* Brighter Parchment */
             --wood-medium: #ffffff;  /* Pure White Cards */
-            --wood-light: #dcd3bd;   /* Stone-colored borders */
-            --steel: #1c120d;        /* Ink-colored text */
-            --steel-muted: #57534e;  /* Faded ink text */
-            --lantern: #b45309;      /* Deeper amber for readability */
-            --blood: #b91c1c;        /* Clear red */
+            --wood-light: #e5e0d0;   /* Stony borders */
+            --steel: #1c1917;        /* Deep Char-Ink text */
+            --steel-muted: #57534e;  /* Faded ink */
+            --lantern: #b45309;      /* Strong Amber */
+            --blood: #b91c1c;        /* Royal Red */
         }
 
         body {
@@ -66,7 +65,6 @@
 
         .medieval-font { font-family: 'Cinzel', serif; }
 
-        /* Custom scrollbar to match the theme */
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: var(--wood-dark); }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--wood-light); border-radius: 10px; }
