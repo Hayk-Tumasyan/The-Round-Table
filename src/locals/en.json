@@ -36,6 +36,17 @@
     "save_success": "Archived",
     "inventory_sub": "View thy claimed artifacts and ledger status"
   },
+  "about": {
+    "founded": "Founded in the Golden Age",
+    "title": "The Citadel's History",
+    "mission_label": "Our Mission",
+    "mission_text": "The Round Table is a digital sanctuary for those who carry the spirit of the old world into the new. We combine community, commerce, and competition into a single immersive realm.",
+    "vision_text": "Born from a love of history and fantasy, we strive to be the premier citadel where enthusiasts transition from online scrolls to physical collection and real-life camaraderie.",
+    "pillars_title": "The Three Pillars",
+    "pillar_1": "Community: A hearth for discussion and shared wisdom.",
+    "pillar_2": "Marketplace: Curated artifacts for the true collector.",
+    "pillar_3": "Events: A directory for real-world historical gathering."
+  },
   "footer": {
     "description": "A modern sanctuary for the virtuous and the brave. Whether you seek legendary artifacts or the warmth of a digital hearth, your place is here.",
     "provinces": "The Provinces",
