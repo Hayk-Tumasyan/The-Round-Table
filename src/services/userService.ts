@@ -10,12 +10,9 @@ export interface UserProfile {
   preferred_lang: string;
   avatar_url: string;
   isBanned: boolean;
-  cart?: any[]; // The Sack contents stored in the cloud
+  cart?: any[]; 
 }
 
-/**
- * Creates a new dossier for a Knight entering the realm
- */
 export const createUserDossier = async (profile: UserProfile) => {
   try {
     const userRef = doc(db, "users", profile.uid);
@@ -23,15 +20,12 @@ export const createUserDossier = async (profile: UserProfile) => {
       ...profile,
       cart: profile.cart || [], 
       created_at: new Date()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error("Dossier creation failed:", error);
   }
 };
 
-/**
- * Retrieves a Knight's profile and saved sack
- */
 export const getUserDossier = async (uid: string): Promise<UserProfile | null> => {
   try {
     const userRef = doc(db, "users", uid);
@@ -46,9 +40,6 @@ export const getUserDossier = async (uid: string): Promise<UserProfile | null> =
   }
 };
 
-/**
- * Scribes the current sack contents into the database vault
- */
 export const saveCartToVault = async (uid: string, cart: any[]) => {
   try {
     const userRef = doc(db, "users", uid);
@@ -60,9 +51,6 @@ export const saveCartToVault = async (uid: string, cart: any[]) => {
 
 const usersCollection = collection(db, "users");
 
-/**
- * Fetch every registered citizen of the realm
- */
 export const getAllCitizens = async (): Promise<User[]> => {
   try {
     const q = query(usersCollection, orderBy("display_name", "asc"));
@@ -75,14 +63,10 @@ export const getAllCitizens = async (): Promise<User[]> => {
       isBanned: doc.data().isBanned || false
     } as User));
   } catch (error) {
-    console.error("Failed to fetch citizens:", error);
     return [];
   }
 };
 
-/**
- * Toggle a Knight's status (Banish/Restore)
- */
 export const toggleBanStatus = async (uid: string, currentStatus: boolean) => {
   try {
     const userRef = doc(db, "users", uid);
@@ -92,9 +76,6 @@ export const toggleBanStatus = async (uid: string, currentStatus: boolean) => {
   }
 };
 
-/**
- * Update general dossier information
- */
 export const updateUserDossier = async (uid: string, data: any) => {
   try {
     const userRef = doc(db, "users", uid);

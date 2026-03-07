@@ -19,48 +19,55 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
-  
-  // 1. Immediate Hydration: Load from localStorage instantly on refresh
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const savedSack = localStorage.getItem('rt-sack');
-    return savedSack ? JSON.parse(savedSack) : [];
-  });
-  
-  const [isSyncing, setIsSyncing] = useState(false);
+  const { user, loading: authLoading } = useAuth();
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  // 2. Local Persistence: Save to localStorage on every change
+  // 1. REACTION: When User logs in or out, handle the Sack switch
   useEffect(() => {
-    localStorage.setItem('rt-sack', JSON.stringify(cart));
-  }, [cart]);
+    if (authLoading) return;
 
-  // 3. Cloud Sync (Login): When a user logs in, merge cloud cart with local cart
-  useEffect(() => {
-    const syncWithCloud = async () => {
-      if (user && !isSyncing) {
-        setIsSyncing(true);
-        const dossier = await getUserDossier(user.id);
-        
-        if (dossier && dossier.cart && dossier.cart.length > 0) {
-          // Logic: If cloud has items, use cloud. If not, push local to cloud.
-          // This ensures that if you add items as a guest and then login, your items stay.
-          setCart(prev => prev.length > 0 ? prev : (dossier.cart as CartItem[]));
+    const manageSackTransition = async () => {
+      if (user) {
+        // KNIGHT LOGGED IN: Try to load their specific local sack first
+        const localSack = localStorage.getItem(`rt-sack-${user.id}`);
+        if (localSack) {
+          setCart(JSON.parse(localSack));
+        } else {
+          // If no local, fetch from the cloud dossier
+          const dossier = await getUserDossier(user.id);
+          setCart(dossier?.cart || []);
         }
-        setIsSyncing(false);
+      } else {
+        // GUEST OR LOGOUT: Empty the UI sack immediately
+        // If you want a "Guest Cart" that persists, use `rt-sack-guest`
+        // But per your request, logout should empty the cart.
+        setCart([]);
       }
+      setIsInitialLoad(false);
     };
-    syncWithCloud();
-  }, [user?.id]);
 
-  // 4. Cloud Persistence: Save to Firestore vault when logged in
+    manageSackTransition();
+  }, [user?.id, authLoading]);
+
+  // 2. PERSISTENCE: Save changes to the CURRENT user's specific key
   useEffect(() => {
+    if (isInitialLoad || authLoading) return;
+
     if (user) {
+      // Save to local storage for this specific account
+      localStorage.setItem(`rt-sack-${user.id}`, JSON.stringify(cart));
+      
+      // Sync to cloud with a debounce
       const timer = setTimeout(() => {
         saveCartToVault(user.id, cart);
-      }, 1000); // Debounce to avoid excessive writes
+      }, 1000);
       return () => clearTimeout(timer);
+    } else {
+      // Optional: Save guest cart if desired
+      localStorage.setItem('rt-sack-guest', JSON.stringify(cart));
     }
-  }, [cart, user?.id]);
+  }, [cart, user?.id, isInitialLoad, authLoading]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -80,8 +87,12 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const clearCart = () => {
     setCart([]);
-    localStorage.removeItem('rt-sack');
-    if (user) saveCartToVault(user.id, []);
+    if (user) {
+      localStorage.removeItem(`rt-sack-${user.id}`);
+      saveCartToVault(user.id, []);
+    } else {
+      localStorage.removeItem('rt-sack-guest');
+    }
   };
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
