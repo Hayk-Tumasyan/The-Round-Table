@@ -119,7 +119,7 @@ const Checkout: React.FC = () => {
               <span>{totalPrice}g</span>
             </div>
             
-            <button onClick={handlePurchase} disabled={isProcessing || !shipping.address || !stripe} className="w-full py-5 bg-citadel-accent hover:bg-amber-500 text-citadel-main font-bold uppercase text-xs rounded-xl shadow-xl flex items-center justify-center gap-2 transition-all">
+            <button onClick={handlePurchase} disabled={isProcessing || !shipping.address || !stripe} className="w-full py-5 bg-amber-600 hover:bg-amber-500 text-citadel-main font-bold uppercase text-xs rounded-xl shadow-xl flex items-center justify-center gap-2 transition-all">
               {isProcessing ? <Loader2 className="animate-spin w-5 h-5" /> : <>{t('checkout.pay_button')} <ArrowRight className="w-4 h-4" /></>}
             </button>
             <p className="text-[9px] text-citadel-muted text-center mt-6 uppercase tracking-widest leading-relaxed">
