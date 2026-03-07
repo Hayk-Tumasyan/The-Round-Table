@@ -45,7 +45,10 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isActive = (path: string) => location.pathname === path ? 'text-citadel-accent border-b-2 border-citadel-accent' : 'text-citadel-muted hover:text-citadel-accent';
+  // RESTORED: border-b-2 border-amber-500 for the active link underline
+  const isActive = (path: string) => location.pathname === path 
+    ? 'text-citadel-accent border-b-2 border-amber-500' 
+    : 'text-citadel-muted hover:text-citadel-accent transition-colors';
   
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -59,25 +62,22 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-[50] bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
-        {/* LOGO */}
-        <Link to="/" className="flex items-center space-x-3 shrink-0">
+      <nav className="sticky top-0 z-[100] bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
+        <Link to="/" className="flex items-center space-x-3 shrink-0" onClick={() => setIsMenuOpen(false)}>
           <div className="w-8 h-8 md:w-10 md:h-10 bg-amber-600 rounded-lg flex items-center justify-center shadow-lg lantern-glow">
-            <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1c120d]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 11a1 1 0 11-2 0H2a1 1 0 110-2h1a1 1 0 110 2zm1.464 4.95a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 11a1 1 0 11-2 0H2a1 1 0 110-2h1a1 1 0 110 2zm1.464 4.95a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707z" /></svg>
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1c120d]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 11a1 1 0 11-2 0H2a1 1 0 110-2h1a1 1 0 110 2zm1.464 4.95a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707z" /></svg>
           </div>
           <span className="text-lg md:text-2xl font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
         </Link>
         
-        {/* DESKTOP LINKS */}
         <div className="hidden lg:flex space-x-8 xl:space-x-10 font-bold uppercase text-xs tracking-[0.2em]">
-          <Link to="/" className={`${isActive('/')} transition-all duration-300 py-1`}>{t('nav.chambers')}</Link>
-          <Link to="/community" className={`${isActive('/community')} transition-all duration-300 py-1`}>{t('nav.great_hall')}</Link>
-          <Link to="/shop" className={`${isActive('/shop')} transition-all duration-300 py-1`}>{t('nav.armory')}</Link>
-          <Link to="/tournaments" className={`${isActive('/tournaments')} transition-all duration-300 py-1`}>{t('nav.tournaments')}</Link>
-          {user?.role === 'admin' && (<Link to={RoutePath.Admin} className={`${isActive(RoutePath.Admin)} transition-all duration-300 py-1 flex items-center gap-2`}><ShieldCheck className="w-3 h-3 text-citadel-accent" />{t('nav.admin')}</Link>)}
+          <Link to="/" className={`${isActive('/')} py-2`}>{t('nav.chambers')}</Link>
+          <Link to="/community" className={`${isActive('/community')} py-2`}>{t('nav.great_hall')}</Link>
+          <Link to="/shop" className={`${isActive('/shop')} py-2`}>{t('nav.armory')}</Link>
+          <Link to="/tournaments" className={`${isActive('/tournaments')} py-2`}>{t('nav.tournaments')}</Link>
+          {user?.role === 'admin' && (<Link to={RoutePath.Admin} className={`${isActive(RoutePath.Admin)} py-2 flex items-center gap-2`}><ShieldCheck className="w-3 h-3 text-citadel-accent" />{t('nav.admin')}</Link>)}
         </div>
 
-        {/* ACTIONS */}
         <div className="flex items-center space-x-2 md:space-x-6">
           <button onClick={toggleTheme} className="p-2 rounded-lg bg-citadel-main border border-citadel-border text-citadel-accent hover:shadow-lg transition-all hidden sm:block">
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -85,12 +85,12 @@ const Navbar: React.FC = () => {
 
           <div className="hidden sm:flex items-center gap-2 border-r border-citadel-border pr-4">
             <Globe className="w-3 h-3 text-citadel-muted" />
-            <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="bg-transparent text-[10px] text-citadel-muted font-bold uppercase tracking-widest outline-none">
+            <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="bg-transparent text-[10px] text-citadel-muted font-bold uppercase tracking-widest outline-none cursor-pointer">
               <option value="en">EN</option><option value="hy">AM</option><option value="ru">RU</option>
             </select>
           </div>
 
-          <Link to={RoutePath.Checkout} className="relative group cursor-pointer p-2">
+          <Link to={RoutePath.Checkout} className="relative group cursor-pointer p-2" onClick={() => setIsMenuOpen(false)}>
             <ShoppingBag className="w-5 h-5 text-citadel-muted group-hover:text-citadel-accent transition-colors" />
             {itemCount > 0 && <span className="absolute top-0 right-0 bg-red-700 text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-citadel-card">{itemCount}</span>}
           </Link>
@@ -112,7 +112,6 @@ const Navbar: React.FC = () => {
             </div>
           )}
 
-          {/* HAMBURGER BUTTON */}
           <button onClick={() => setIsMenuOpen(true)} className="lg:hidden p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-main shadow-lg">
             <Menu className="w-5 h-5" />
           </button>
@@ -122,10 +121,9 @@ const Navbar: React.FC = () => {
       {/* FULL SCREEN MOBILE OVERLAY */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[200] w-full h-screen bg-citadel-main animate-in fade-in duration-300 lg:hidden flex flex-col">
-          {/* Header of Overlay */}
           <div className="px-4 py-4 flex justify-between items-center border-b border-citadel-border bg-citadel-card/50">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center"><HomeIcon className="w-4 h-4 text-citadel-main" /></div>
+              <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center"><HomeIcon className="w-4 h-4 text-white" /></div>
               <span className="text-lg font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
             </div>
             <button onClick={() => setIsMenuOpen(false)} className="p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-card hover:bg-citadel-main transition-colors">
@@ -134,7 +132,6 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="flex-grow overflow-y-auto p-6 space-y-10 custom-scrollbar">
-            {/* Primary Provinces */}
             <div className="space-y-2">
               <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.provinces')}</p>
               <Link to="/" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl bg-citadel-card/50 text-citadel-steel border border-citadel-border">
@@ -155,7 +152,6 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Imperial Decrees */}
             <div className="space-y-2">
               <p className="text-[10px] font-bold uppercase text-citadel-muted tracking-[0.3em] mb-4 ml-2">{t('footer.decrees')}</p>
               <Link to="/about" onClick={handleMobileNav} className="flex items-center gap-4 p-4 rounded-xl bg-citadel-card/50 text-citadel-steel border border-citadel-border">
@@ -168,7 +164,6 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Preferences & System */}
             <div className="pt-8 border-t border-citadel-border space-y-6">
                <div className="flex items-center justify-between">
                  <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Aura (Theme)</span>
@@ -189,7 +184,6 @@ const Navbar: React.FC = () => {
                </div>
             </div>
 
-            {/* Profile / Auth */}
             <div className="pt-4 pb-12">
               {user ? (
                 <div className="space-y-4">
@@ -220,6 +214,28 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       )}
+
+      <div className="min-h-screen flex flex-col selection:bg-citadel-accent/30 selection:text-citadel-accent bg-citadel-main text-citadel-steel overflow-x-hidden">
+        <main className="flex-grow">
+          <Routes>
+            <Route path={RoutePath.Home} element={<Home />} />
+            <Route path={RoutePath.Community} element={<Community />} />
+            <Route path={RoutePath.Shop} element={<Shop />} />
+            <Route path={RoutePath.Tournaments} element={<Tournaments />} />
+            <Route path={RoutePath.ProductDetails} element={<ProductDetails />} />
+            <Route path={RoutePath.PostDetails} element={<PostDetails />} />
+            <Route path={RoutePath.Login} element={<Login />} />
+            <Route path={RoutePath.Register} element={<Register />} />
+            <Route path={RoutePath.Checkout} element={<Checkout />} />
+            <Route path={RoutePath.Orders} element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path={RoutePath.Admin} element={<ProtectedRoute role="admin"><AdminPanel /></ProtectedRoute>} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </>
   );
 };
@@ -264,28 +280,7 @@ const App: React.FC = () => {
           <Elements stripe={stripePromise}>
             <Router>
               <ScrollToTop /> 
-              <div className="min-h-screen flex flex-col selection:bg-citadel-accent/30 selection:text-citadel-accent bg-citadel-main text-citadel-steel overflow-x-hidden">
-                <Navbar />
-                <main className="flex-grow">
-                  <Routes>
-                    <Route path={RoutePath.Home} element={<Home />} />
-                    <Route path={RoutePath.Community} element={<Community />} />
-                    <Route path={RoutePath.Shop} element={<Shop />} />
-                    <Route path={RoutePath.Tournaments} element={<Tournaments />} />
-                    <Route path={RoutePath.ProductDetails} element={<ProductDetails />} />
-                    <Route path={RoutePath.PostDetails} element={<PostDetails />} />
-                    <Route path={RoutePath.Login} element={<Login />} />
-                    <Route path={RoutePath.Register} element={<Register />} />
-                    <Route path={RoutePath.Checkout} element={<Checkout />} />
-                    <Route path={RoutePath.Orders} element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
-                    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path={RoutePath.Admin} element={<ProtectedRoute role="admin"><AdminPanel /></ProtectedRoute>} />
-                  </Routes>
-                </main>
-                <Footer />
-              </div>
+              <Navbar />
             </Router>
           </Elements>
         </CartProvider>
