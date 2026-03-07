@@ -37,7 +37,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             bio: "A traveler in the realm.",
             preferred_lang: "en",
             avatar_url: "",
-            isBanned: false
+            isBanned: false,
+            cart: []
           };
           await createUserDossier(newDossier);
           dossier = newDossier;
@@ -52,7 +53,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setUser({
               id: firebaseUser.uid,
               username: latestData.display_name,
-              email: firebaseUser.email || "", // <--- CAPTURE REAL EMAIL HERE
+              email: firebaseUser.email || "", 
               role: isHand ? 'admin' : latestData.role,
               bio: latestData.bio,
               preferred_lang: latestData.preferred_lang,

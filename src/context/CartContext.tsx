@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
-import { useAuth } from './AuthContext'; // Import to know which user is shopping
-import { saveCartToVault, getUserDossier } from '../services/userService'; // Import DB tools
+import { useAuth } from './AuthContext';
+import { saveCartToVault, getUserDossier } from '../services/userService';
 
 interface CartItem extends Product {
   quantity: number;
@@ -20,44 +20,48 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const [cart, setCart] = useState<CartItem[]>([]);
   
-  // A safety flag to prevent overwriting the cloud with empty local data during startup
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  // 1. Immediate Hydration: Load from localStorage instantly on refresh
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    const savedSack = localStorage.getItem('rt-sack');
+    return savedSack ? JSON.parse(savedSack) : [];
+  });
+  
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  // --- NEW PERSISTENCE LOGIC START ---
-
-  // 1. QUEST: Load the sack from the cloud when the Knight enters the realm
+  // 2. Local Persistence: Save to localStorage on every change
   useEffect(() => {
-    const loadSavedSack = async () => {
-      if (user) {
+    localStorage.setItem('rt-sack', JSON.stringify(cart));
+  }, [cart]);
+
+  // 3. Cloud Sync (Login): When a user logs in, merge cloud cart with local cart
+  useEffect(() => {
+    const syncWithCloud = async () => {
+      if (user && !isSyncing) {
+        setIsSyncing(true);
         const dossier = await getUserDossier(user.id);
-        if (dossier && dossier.cart) {
-          setCart(dossier.cart);
+        
+        if (dossier && dossier.cart && dossier.cart.length > 0) {
+          // Logic: If cloud has items, use cloud. If not, push local to cloud.
+          // This ensures that if you add items as a guest and then login, your items stay.
+          setCart(prev => prev.length > 0 ? prev : (dossier.cart as CartItem[]));
         }
-      } else {
-        setCart([]); // If no user is logged in, show an empty sack
+        setIsSyncing(false);
       }
-      setIsInitialLoad(false); // Gateway opened: we can now save changes to cloud
     };
-    loadSavedSack();
+    syncWithCloud();
   }, [user?.id]);
 
-  // 2. QUEST: Automatically sync every change in the sack to the cloud
+  // 4. Cloud Persistence: Save to Firestore vault when logged in
   useEffect(() => {
-    // Only save if a user exists and we have finished the initial download
-    if (!user || isInitialLoad) return;
-    
-    const syncTimer = setTimeout(() => {
-      saveCartToVault(user.id, cart);
-    }, 500); // Wait 0.5s after the last click to avoid database spam
+    if (user) {
+      const timer = setTimeout(() => {
+        saveCartToVault(user.id, cart);
+      }, 1000); // Debounce to avoid excessive writes
+      return () => clearTimeout(timer);
+    }
+  }, [cart, user?.id]);
 
-    return () => clearTimeout(syncTimer);
-  }, [cart, user, isInitialLoad]);
-
-  // --- NEW PERSISTENCE LOGIC END ---
-
-  // ALL ORIGINAL FUNCTIONS PRESERVED BELOW
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -76,7 +80,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const clearCart = () => {
     setCart([]);
-    // Immediately clear in cloud if user is logged in
+    localStorage.removeItem('rt-sack');
     if (user) saveCartToVault(user.id, []);
   };
 
