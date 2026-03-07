@@ -71,6 +71,11 @@
       "title": "Exotic Treasures",
       "subtitle": "Curated artifacts from the edge of the known world.",
       "link": "Browse Merchant Quarter"
+    },
+    "chronicles": {
+      "badge": "The Great Library",
+      "title_main": "Chronicles of the",
+      "title_accent": "Fallen"
     }
   },
   "community": {

@@ -9,33 +9,18 @@ import { Loader2 } from 'lucide-react';
 const Hero: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="relative h-[80vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
+    <div className="relative h-[85vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img src="https://i.pinimg.com/1200x/97/77/f8/9777f83a1226a1ab8e60461c15937bd1.jpg" alt="Castle" className="w-full h-full object-cover opacity-20 scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-citadel-main via-citadel-main/60 to-citadel-card/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f0a08] via-transparent to-[#1c120d]/50"></div>
       </div>
-      <div className="relative z-10 text-center px-6 max-w-4xl flex flex-col items-center">
-        <span className="inline-block px-4 py-1.5 bg-red-900/30 border border-red-700/50 text-red-500 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-8">
-          {t('home.hero.badge')}
-        </span>
-        
-        {/* FIXED: 'Splendor' is now Lantern Orange (#f59e0b) regardless of theme */}
-        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold medieval-font text-white mb-8 drop-shadow-2xl leading-tight uppercase">
-          {t('home.hero.title_main')} <span className="text-[#f59e0b]">{t('home.hero.title_accent')}</span>
-        </h1>
-        
-        <p className="text-lg md:text-2xl text-zinc-300 mb-12 italic max-w-2xl mx-auto leading-relaxed">
-          {t('home.hero.subtitle')}
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center w-full sm:w-auto">
-          {/* FIXED: Primary button is now Lantern Orange with Dark Wood text */}
-          <Link to="/shop" className="px-8 md:px-10 py-5 bg-[#f59e0b] hover:bg-amber-500 text-[#0f0a08] font-bold uppercase text-[10px] md:text-sm tracking-widest rounded transition-all shadow-2xl lantern-glow">
-            {t('home.hero.cta_shop')}
-          </Link>
-          <Link to="/community" className="px-8 md:px-10 py-5 bg-transparent hover:bg-white/5 text-white font-bold uppercase text-[10px] md:text-sm tracking-widest rounded border border-white/30 transition-all">
-            {t('home.hero.cta_community')}
-          </Link>
+      <div className="relative z-10 text-center px-4 max-w-4xl">
+        <span className="inline-block px-4 py-1.5 bg-red-900/30 border border-red-700/50 text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-8">{t('home.hero.badge')}</span>
+        <h1 className="text-6xl md:text-8xl font-bold medieval-font text-zinc-100 mb-8 drop-shadow-2xl">{t('home.hero.title_main')} <span className="text-amber-500">{t('home.hero.title_accent')}</span></h1>
+        <p className="text-xl md:text-2xl text-zinc-400 mb-12 italic max-w-2xl mx-auto">{t('home.hero.subtitle')}</p>
+        <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <Link to="/shop" className="px-10 py-5 bg-amber-600 hover:bg-amber-500 text-[#0f0a08] text-sm font-bold uppercase tracking-widest rounded transition-all shadow-2xl lantern-glow">{t('home.hero.cta_shop')}</Link>
+          <Link to="/community" className="px-10 py-5 bg-transparent hover:bg-zinc-800 text-zinc-100 text-sm font-bold uppercase tracking-widest rounded border border-zinc-700 transition-all">{t('home.hero.cta_community')}</Link>
         </div>
       </div>
     </div>
@@ -63,39 +48,38 @@ const Home: React.FC = () => {
     loadHomeData();
   }, []);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-citadel-main"><Loader2 className="animate-spin text-citadel-accent" /></div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#0f0a08]"><Loader2 className="animate-spin text-amber-500" /></div>;
 
   return (
-    <div className="space-y-20 md:space-y-32 pb-20 md:pb-32">
+    <div className="space-y-32 pb-32">
       <Hero />
       
-      <section className="px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-16 gap-6 text-center md:text-left">
+      {/* Real Marketplace Preview */}
+      <section className="px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold medieval-font text-citadel-steel uppercase">{t('home.treasures.title')}</h2>
-            <div className="w-24 h-1 bg-red-700 mt-4 mx-auto md:mx-0"></div>
-            <p className="text-citadel-muted mt-6 text-base md:text-lg">{t('home.treasures.subtitle')}</p>
+            <h2 className="text-4xl font-bold medieval-font text-zinc-100">{t('home.treasures.title')}</h2>
+            <div className="w-24 h-1 bg-red-700 mt-4"></div>
+            <p className="text-zinc-500 mt-6 text-lg">{t('home.treasures.subtitle')}</p>
           </div>
-          <Link to="/shop" className="text-citadel-accent hover:text-amber-400 font-bold uppercase text-[10px] md:text-xs tracking-widest group shrink-0">
+          <Link to="/shop" className="text-amber-500 hover:text-amber-400 font-bold uppercase text-xs tracking-widest group">
             {t('home.treasures.link')} <span className="inline-block transform group-hover:translate-x-1 transition-transform">&rarr;</span>
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {products.map(product => (
-            <Link key={product.id} to={`/product/${product.id}`} className="group bg-citadel-card border border-citadel-border rounded-lg overflow-hidden hover:border-citadel-accent/40 transition-all shadow-xl">
+            <Link key={product.id} to={`/product/${product.id}`} className="group bg-[#1c120d] border border-zinc-900 rounded-lg overflow-hidden hover:border-amber-500/40 transition-all shadow-xl">
               <div className="aspect-[4/5] overflow-hidden relative">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100" />
               </div>
               <div className="p-6">
-                <h3 className="font-bold text-citadel-steel group-hover:text-citadel-accent transition-colors uppercase tracking-wider text-sm md:text-base">
-                   {t(`shop.items.${product.id}.name`, { defaultValue: product.name })}
+                <h3 className="font-bold text-zinc-100 group-hover:text-amber-500 transition-colors uppercase tracking-wider">
+                  {t(`shop.items.${product.id}.name`, { defaultValue: product.name })}
                 </h3>
                 <div className="flex justify-between items-center mt-4">
-                  <span className="text-[8px] md:text-[9px] uppercase tracking-widest px-2 py-1 rounded border border-citadel-border text-citadel-muted">
-                    {t(`shop.rarity.${product.rarity}`)}
-                  </span>
-                  <span className="text-amber-500 font-bold text-2xl tracking-tighter medieval-font">{product.price}g</span>
+                  <span className="text-[9px] uppercase tracking-widest px-2 py-1 rounded border border-zinc-800 text-zinc-500">{t(`shop.rarity.${product.rarity}`)}</span>
+                  <span className="text-amber-500 font-bold">{product.price}g</span>
                 </div>
               </div>
             </Link>
@@ -103,29 +87,34 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <section className="px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="bg-citadel-card border border-citadel-border rounded-2xl md:rounded-3xl p-8 md:p-20 relative overflow-hidden shadow-2xl">
+      {/* Real Community Preview */}
+      <section className="px-8 max-w-7xl mx-auto">
+        <div className="bg-[#1c120d] border border-zinc-900 rounded-3xl p-10 md:p-20 relative overflow-hidden shadow-2xl">
           <div className="absolute -right-20 -top-20 w-80 h-80 bg-red-700/10 blur-[120px] rounded-full"></div>
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
             <div>
-              <span className="text-red-600 font-bold uppercase text-[8px] md:text-[10px] tracking-[0.3em] mb-4 block">The Great Library</span>
-              <h2 className="text-3xl md:text-5xl font-bold medieval-font text-citadel-steel mb-8 leading-tight uppercase">
-                Chronicles of the <span className="text-red-700">Fallen</span>
+              {/* FIXED: Badge is now translatable */}
+              <span className="text-red-600 font-bold uppercase text-[10px] tracking-[0.3em] mb-4 block">
+                {t('home.chronicles.badge')}
+              </span>
+              {/* FIXED: Title parts are now translatable */}
+              <h2 className="text-5xl font-bold medieval-font text-zinc-100 mb-8 leading-tight">
+                {t('home.chronicles.title_main')} <span className="text-red-700">{t('home.chronicles.title_accent')}</span>
               </h2>
-              <div className="space-y-4 md:space-y-6">
+              <div className="space-y-6">
                 {posts.map(post => (
-                  <Link key={post.id} to={`/post/${post.id}`} className="block p-4 md:p-6 bg-citadel-main/50 border border-citadel-border rounded-xl hover:border-red-800/50 transition-all hover:bg-citadel-main">
-                    <h4 className="font-bold text-citadel-steel mb-2 uppercase tracking-wide text-xs md:sm">{post.title}</h4>
-                    <div className="flex justify-between text-[8px] md:text-[10px] text-citadel-muted uppercase tracking-widest">
+                  <Link key={post.id} to={`/post/${post.id}`} className="block p-6 bg-[#0f0a08]/50 border border-zinc-800 rounded-xl hover:border-red-800/50 transition-all hover:bg-[#0f0a08]">
+                    <h4 className="font-bold text-zinc-200 mb-2 uppercase tracking-wide">{post.title}</h4>
+                    <div className="flex justify-between text-[10px] text-zinc-500 uppercase tracking-widest">
                       <span>By {post.author}</span>
-                      <span className="text-citadel-accent">{post.likes} {t('common.fealty')}</span>
+                      <span className="text-amber-600">{post.likes} {t('common.fealty')}</span>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
-            <div className="hidden lg:block relative">
-              <img src="https://i.pinimg.com/736x/0e/d1/e6/0ed1e6223df10dc7fbd4a82b40456747.jpg" alt="Manuscript" className="rounded-2xl shadow-2xl opacity-80 border border-citadel-border" />
+            <div className="hidden md:block relative">
+              <img src="https://i.pinimg.com/736x/0e/d1/e6/0ed1e6223df10dc7fbd4a82b40456747.jpg" alt="Manuscript" className="rounded-2xl shadow-2xl opacity-80 border border-zinc-800" />
             </div>
           </div>
         </div>
