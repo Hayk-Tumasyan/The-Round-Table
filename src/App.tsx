@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Added useState for the mobile menu
+import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { RoutePath, User } from './types';
@@ -17,7 +17,7 @@ import Profile from './pages/Profile';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ScrollToTop from './components/ScrollToTop'; 
-import { ShieldCheck, LogOut, ShoppingBag, Globe, Sun, Moon, Menu, X as CloseIcon } from 'lucide-react'; // Added Menu and X icons
+import { ShieldCheck, LogOut, ShoppingBag, Globe, Sun, Moon, Menu, X as CloseIcon } from 'lucide-react';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
@@ -43,17 +43,16 @@ const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path ? 'text-citadel-accent border-b-2 border-citadel-accent' : 'text-citadel-muted hover:text-citadel-accent';
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
-    setIsMenuOpen(false); // Close menu on language change
+    setIsMenuOpen(false);
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-citadel-card/95 backdrop-blur-lg border-b border-citadel-border px-4 md:px-8 py-4 flex justify-between items-center shadow-2xl">
-      {/* LEFT: Logo */}
       <Link to="/" className="flex items-center space-x-3 shrink-0" onClick={() => setIsMenuOpen(false)}>
         <div className="w-8 h-8 md:w-10 md:h-10 bg-amber-600 rounded-lg flex items-center justify-center shadow-lg lantern-glow">
           <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1c120d]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 11a1 1 0 11-2 0H2a1 1 0 110-2h1a1 1 0 110 2zm1.464 4.95a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707z" /></svg>
@@ -61,7 +60,6 @@ const Navbar: React.FC = () => {
         <span className="text-lg md:text-2xl font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
       </Link>
       
-      {/* CENTER: Desktop Links (Hidden on small screens) */}
       <div className="hidden lg:flex space-x-8 xl:space-x-10 font-bold uppercase text-xs tracking-[0.2em]">
         <Link to="/" className={`${isActive('/')} transition-all duration-300 py-1`}>{t('nav.chambers')}</Link>
         <Link to="/community" className={`${isActive('/community')} transition-all duration-300 py-1`}>{t('nav.great_hall')}</Link>
@@ -70,7 +68,6 @@ const Navbar: React.FC = () => {
         {user?.role === 'admin' && (<Link to={RoutePath.Admin} className={`${isActive(RoutePath.Admin)} transition-all duration-300 py-1 flex items-center gap-2`}><ShieldCheck className="w-3 h-3 text-citadel-accent" />{t('nav.admin')}</Link>)}
       </div>
 
-      {/* RIGHT: Actions */}
       <div className="flex items-center space-x-2 md:space-x-6">
         <button onClick={toggleTheme} className="p-2 rounded-lg bg-citadel-main border border-citadel-border text-citadel-accent hover:shadow-lg transition-all hidden sm:block">
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -97,18 +94,22 @@ const Navbar: React.FC = () => {
             <button onClick={logout} className="p-2 text-citadel-muted hover:text-red-500 transition-colors"><LogOut className="w-4 h-4" /></button>
           </div>
         ) : (
-          <div className="hidden sm:flex items-center space-x-4">
-            <Link to="/login" className="text-citadel-muted hover:text-citadel-steel font-bold text-xs uppercase tracking-widest">{t('common.login')}</Link>
+          <div className="hidden sm:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
+            <Link to="/login" className="text-citadel-muted hover:text-citadel-steel font-bold text-[10px] md:text-xs uppercase tracking-widest">
+              {t('common.login')}
+            </Link>
+            {/* FIXED: Restored the Register Button with refined styling */}
+            <Link to="/register" className="hidden md:block px-5 py-2.5 bg-red-800 hover:bg-red-700 text-white font-bold rounded-md text-[10px] uppercase tracking-widest border border-red-700/50 transition-all shrink-0">
+              {t('common.register')}
+            </Link>
           </div>
         )}
 
-        {/* Hamburger Toggle (Visible only on small screens) */}
         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden p-2 text-citadel-accent border border-citadel-border rounded-lg bg-citadel-main">
           {isMenuOpen ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* MOBILE MENU OVERLAY */}
       {isMenuOpen && (
         <div className="fixed inset-0 top-[72px] z-[40] bg-citadel-main animate-in slide-in-from-right lg:hidden overflow-y-auto">
           <div className="p-8 space-y-8">
