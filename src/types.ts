@@ -71,6 +71,7 @@ export enum RoutePath {
   Community = '/community',
   Shop = '/shop',
   Tournaments = '/tournaments',
+  TournamentDetails = '/tournaments/:id',
   ProductDetails = '/product/:id',
   PostDetails = '/post/:id',
   Login = '/login',

@@ -25,10 +25,6 @@ const Tournaments: React.FC = () => {
     fetchEvents();
   }, []);
 
-  const getGoogleMapsLink = (locationName: string) => {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
-  };
-
   if (loading) return <div className="min-h-[80vh] flex flex-col items-center justify-center bg-[#0f0a08]"><Loader2 className="w-10 h-10 text-amber-500 animate-spin" /><p className="medieval-font text-amber-500 uppercase tracking-widest">{t('common.loading')}</p></div>;
 
   return (
@@ -60,27 +56,20 @@ const Tournaments: React.FC = () => {
 
               <div className="space-y-4 border-t border-zinc-800/50 pt-6">
                 <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-zinc-500"><Calendar className="w-4 h-4 text-amber-600" /><span>{tournament.date}</span></div>
-                <a href={getGoogleMapsLink(tournament.location)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-amber-500 transition-colors group/loc">
+                <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-zinc-500">
                   <MapPin className="w-4 h-4 text-amber-600" />
                   <span>{tournament.location}</span>
-                  <ExternalLink className="w-3 h-3 opacity-0 group-hover/loc:opacity-100 transition-opacity" />
-                </a>
+                </div>
                 <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-amber-500"><Coins className="w-4 h-4" /><span>{tournament.prize}</span></div>
               </div>
             </div>
             
             <div className="px-8 py-4 bg-[#160f0c] border-t border-zinc-800/50 flex justify-between items-center">
-              <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 hover:text-zinc-100 transition-colors">View Participants</button>
-              {tournament.external_link ? (
-                <a href={tournament.external_link} target="_blank" rel="noopener noreferrer" className="px-6 py-2 bg-amber-600 hover:bg-amber-500 text-[#0f0a08] text-[10px] font-bold uppercase tracking-[0.2em] rounded transition-all shadow-lg flex items-center gap-2">
-                  {t('tournaments.fray_button')}
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              ) : (
-                <button className="px-6 py-2 bg-zinc-800 cursor-not-allowed text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded">
-                   Sold Out
-                </button>
-              )}
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600 block">Status: {tournament.status}</span>
+              <a href={`#/tournaments/${tournament.id}`} className="px-6 py-2 bg-zinc-800 hover:bg-amber-600 hover:text-[#0f0a08] text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em] rounded transition-all shadow-lg flex items-center gap-2 group-hover:bg-amber-600 group-hover:text-[#0f0a08]">
+                {t('tournaments.view_details', { defaultValue: 'View Details' })}
+                <ExternalLink className="w-3 h-3" />
+              </a>
             </div>
           </div>
         ))}

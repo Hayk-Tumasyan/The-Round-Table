@@ -154,6 +154,17 @@
     "title": "The Tourney Grounds",
     "subtitle": "Real-world gatherings for the brave and virtuous.",
     "fray_button": "Enter the Fray",
+    "view_details": "View Details",
+    "lost_to_time": "Tournament Lost to Time",
+    "return_grounds": "Return to Tourney Grounds",
+    "status": "Status",
+    "sword_sworn": "Sword Sworn",
+    "concluded": "Concluded",
+    "tourney_grounds": "Tourney Grounds",
+    "combatants_list": "Combatants List",
+    "knights_sworn": "Knights Sworn",
+    "empty_roster": "The roster is empty. Be the first to pledge your sword.",
+    "pledged_on": "Pledged on",
     "events": {
       "1": { "title": "Grand Joust of Camelot", "desc": "Knights gather to compete for the Golden Laurel." },
       "2": { "title": "Melee at Ironhold", "desc": "A brutal test of strength in the mud and blood." }

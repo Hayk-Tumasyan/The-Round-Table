@@ -11,12 +11,13 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminPanel from './pages/AdminPanel';
 import Tournaments from './pages/Tournaments';
+import TournamentDetails from './pages/TournamentDetails';
 import Checkout from './pages/Checkout';
 import OrderHistory from './pages/OrderHistory';
 import Profile from './pages/Profile';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import ScrollToTop from './components/ScrollToTop'; 
+import ScrollToTop from './components/ScrollToTop';
 import { ShieldCheck, LogOut, ShoppingBag, Globe, Sun, Moon, Menu, X as CloseIcon, User as UserIcon, BookOpen, MessageCircle, Package, Home as HomeIcon } from 'lucide-react';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -46,10 +47,10 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // RESTORED: border-b-2 border-amber-500 for the active link underline
-  const isActive = (path: string) => location.pathname === path 
-    ? 'text-citadel-accent border-b-2 border-amber-500' 
+  const isActive = (path: string) => location.pathname === path
+    ? 'text-citadel-accent border-b-2 border-amber-500'
     : 'text-citadel-muted hover:text-citadel-accent transition-colors';
-  
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setIsMenuOpen(false);
@@ -69,7 +70,7 @@ const Navbar: React.FC = () => {
           </div>
           <span className="text-lg md:text-2xl font-bold medieval-font tracking-widest text-citadel-steel uppercase">The Round <span className="text-citadel-accent">Table</span></span>
         </Link>
-        
+
         <div className="hidden lg:flex space-x-8 xl:space-x-10 font-bold uppercase text-xs tracking-[0.2em]">
           <Link to="/" className={`${isActive('/')} py-2`}>{t('nav.chambers')}</Link>
           <Link to="/community" className={`${isActive('/community')} py-2`}>{t('nav.great_hall')}</Link>
@@ -165,49 +166,49 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="pt-8 border-t border-citadel-border space-y-6">
-               <div className="flex items-center justify-between">
-                 <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Aura (Theme)</span>
-                 <button onClick={toggleTheme} className="flex items-center gap-3 px-6 py-3 rounded-xl bg-citadel-card border border-citadel-border text-citadel-accent font-bold uppercase text-[10px]">
-                    {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                    {theme === 'dark' ? "Light" : "Dark"}
-                 </button>
-               </div>
-               <div className="flex items-center justify-between">
-                 <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Language</span>
-                 <div className="flex gap-1">
-                    {['en', 'hy', 'ru'].map(lang => (
-                      <button key={lang} onClick={() => changeLanguage(lang)} className={`px-4 py-3 rounded-lg border uppercase text-[10px] font-bold transition-all ${i18n.language === lang ? 'bg-citadel-accent text-citadel-main border-citadel-accent shadow-lg' : 'bg-citadel-card text-citadel-muted border-citadel-border'}`}>
-                        {lang === 'hy' ? 'AM' : lang.toUpperCase()}
-                      </button>
-                    ))}
-                 </div>
-               </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Aura (Theme)</span>
+                <button onClick={toggleTheme} className="flex items-center gap-3 px-6 py-3 rounded-xl bg-citadel-card border border-citadel-border text-citadel-accent font-bold uppercase text-[10px]">
+                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {theme === 'dark' ? "Light" : "Dark"}
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase text-citadel-muted tracking-widest">Language</span>
+                <div className="flex gap-1">
+                  {['en', 'hy', 'ru'].map(lang => (
+                    <button key={lang} onClick={() => changeLanguage(lang)} className={`px-4 py-3 rounded-lg border uppercase text-[10px] font-bold transition-all ${i18n.language === lang ? 'bg-citadel-accent text-citadel-main border-citadel-accent shadow-lg' : 'bg-citadel-card text-citadel-muted border-citadel-border'}`}>
+                      {lang === 'hy' ? 'AM' : lang.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="pt-4 pb-12">
               {user ? (
                 <div className="space-y-4">
-                   <div className="p-6 bg-citadel-card rounded-2xl border border-citadel-border shadow-inner">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-12 h-12 rounded-full bg-citadel-main border border-citadel-border flex items-center justify-center text-citadel-accent shadow-lg"><UserIcon className="w-6 h-6" /></div>
-                        <div>
-                          <p className="text-citadel-steel font-bold uppercase text-sm">{user.username}</p>
-                          <p className="text-citadel-accent text-[9px] uppercase tracking-widest font-bold">{user.role === 'admin' ? t('common.hand_of_the_king') : t('common.knight')}</p>
-                        </div>
+                  <div className="p-6 bg-citadel-card rounded-2xl border border-citadel-border shadow-inner">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-12 h-12 rounded-full bg-citadel-main border border-citadel-border flex items-center justify-center text-citadel-accent shadow-lg"><UserIcon className="w-6 h-6" /></div>
+                      <div>
+                        <p className="text-citadel-steel font-bold uppercase text-sm">{user.username}</p>
+                        <p className="text-citadel-accent text-[9px] uppercase tracking-widest font-bold">{user.role === 'admin' ? t('common.hand_of_the_king') : t('common.knight')}</p>
                       </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        <Link to="/profile" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-4 bg-citadel-main border border-citadel-border rounded-xl text-[10px] font-bold uppercase text-citadel-steel">Profile</Link>
-                        <Link to="/inventory" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-4 bg-citadel-main border border-citadel-border rounded-xl text-[10px] font-bold uppercase text-citadel-steel">Inventory</Link>
-                      </div>
-                   </div>
-                   <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full py-5 bg-red-900/10 text-red-500 font-bold uppercase text-xs tracking-[0.2em] border border-red-900/20 rounded-2xl">
-                     {t('common.logout')}
-                   </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Link to="/profile" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-4 bg-citadel-main border border-citadel-border rounded-xl text-[10px] font-bold uppercase text-citadel-steel">Profile</Link>
+                      <Link to="/inventory" onClick={handleMobileNav} className="flex items-center justify-center gap-2 py-4 bg-citadel-main border border-citadel-border rounded-xl text-[10px] font-bold uppercase text-citadel-steel">Inventory</Link>
+                    </div>
+                  </div>
+                  <button onClick={() => { logout(); setIsMenuOpen(false); }} className="w-full py-5 bg-red-900/10 text-red-500 font-bold uppercase text-xs tracking-[0.2em] border border-red-900/20 rounded-2xl">
+                    {t('common.logout')}
+                  </button>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                   <Link to="/login" onClick={handleMobileNav} className="py-5 text-center text-citadel-steel font-bold uppercase text-xs border border-citadel-border rounded-2xl bg-citadel-card">Login</Link>
-                   <Link to="/register" onClick={handleMobileNav} className="py-5 text-center bg-red-800 text-white font-bold uppercase text-xs rounded-2xl shadow-xl">Join Us</Link>
+                  <Link to="/login" onClick={handleMobileNav} className="py-5 text-center text-citadel-steel font-bold uppercase text-xs border border-citadel-border rounded-2xl bg-citadel-card">Login</Link>
+                  <Link to="/register" onClick={handleMobileNav} className="py-5 text-center bg-red-800 text-white font-bold uppercase text-xs rounded-2xl shadow-xl">Join Us</Link>
                 </div>
               )}
             </div>
@@ -222,6 +223,7 @@ const Navbar: React.FC = () => {
             <Route path={RoutePath.Community} element={<Community />} />
             <Route path={RoutePath.Shop} element={<Shop />} />
             <Route path={RoutePath.Tournaments} element={<Tournaments />} />
+            <Route path={RoutePath.TournamentDetails} element={<TournamentDetails />} />
             <Route path={RoutePath.ProductDetails} element={<ProductDetails />} />
             <Route path={RoutePath.PostDetails} element={<PostDetails />} />
             <Route path={RoutePath.Login} element={<Login />} />
@@ -279,7 +281,7 @@ const App: React.FC = () => {
         <CartProvider>
           <Elements stripe={stripePromise}>
             <Router>
-              <ScrollToTop /> 
+              <ScrollToTop />
               <Navbar />
             </Router>
           </Elements>
