@@ -94,7 +94,14 @@
     "sort_new": "Newest",
     "sort_top": "Top",
     "error_post": "The ink has run dry. Could not post.",
-    "error_comment": "The scroll is torn. Could not comment."
+    "error_comment": "The scroll is torn. Could not comment.",
+    "sidebar_search_title": "Search Decrees",
+    "sidebar_search_placeholder": "e.g. Lore, Events",
+    "sidebar_rules_title": "Rules of the Hall",
+    "sidebar_rules_1": "1. Respect thy fellow Knights.",
+    "sidebar_rules_2": "2. No forbidden magic (spam/scams).",
+    "sidebar_rules_3": "3. Honor the King's decrees.",
+    "sidebar_rules_4": "4. Speak truth, abhor falsehood."
   },
   "contact": {
     "title_main": "The Scrying",

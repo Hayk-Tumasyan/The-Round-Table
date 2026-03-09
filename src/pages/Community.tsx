@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getPosts, createPost, toggleFealty } from '../services/postService';
 import { Post } from '../types';
 import { useAuth } from '../context/AuthContext';
-import { Hash, TrendingUp, Clock, FilterX, Plus, X, MessageSquare, Loader2 } from 'lucide-react';
+import { Hash, TrendingUp, Clock, FilterX, Plus, X, MessageSquare, Loader2, Search, BookOpen } from 'lucide-react';
 
 const Community: React.FC = () => {
   const { user } = useAuth();
@@ -23,6 +23,18 @@ const Community: React.FC = () => {
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
 
+  const [sidebarSearch, setSidebarSearch] = useState('');
+  const [activeSearch, setActiveSearch] = useState('');
+
+  const handleSidebarSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (sidebarSearch.trim()) {
+      setActiveSearch(sidebarSearch.trim().toLowerCase());
+    } else {
+      setActiveSearch('');
+    }
+  };
+
   const fetchScrolls = async () => {
     setLoading(true);
     try {
@@ -38,6 +50,15 @@ const Community: React.FC = () => {
   useEffect(() => {
     fetchScrolls();
   }, [sortOrder, selectedTag]);
+
+  // Derived state for client-side text filtering
+  const filteredPosts = posts.filter(post => {
+    if (!activeSearch) return true;
+    const searchLower = activeSearch;
+    return post.title.toLowerCase().includes(searchLower) || 
+           post.content.toLowerCase().includes(searchLower) ||
+           (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchLower)));
+  });
 
   const handleAddTag = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && tagInput.trim()) {
@@ -102,7 +123,12 @@ const Community: React.FC = () => {
           <div className="flex flex-wrap gap-3 items-center">
             {selectedTag && (
               <button onClick={() => setSelectedTag(null)} className="flex items-center gap-2 px-4 py-2 bg-red-900/20 border border-red-900/40 text-red-500 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-red-900/30">
-                <FilterX className="w-3 h-3" /> Clear: #{selectedTag}
+                <FilterX className="w-3 h-3" /> Clear Tag: #{selectedTag}
+              </button>
+            )}
+            {activeSearch && (
+              <button onClick={() => { setActiveSearch(''); setSidebarSearch(''); }} className="flex items-center gap-2 px-4 py-2 bg-blue-900/20 border border-blue-900/40 text-blue-500 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-blue-900/30">
+                <FilterX className="w-3 h-3" /> Clear Topic: {activeSearch}
               </button>
             )}
             <button onClick={() => user ? setIsScribing(true) : navigate('/login')} className="bg-amber-600 hover:bg-amber-500 text-[#0f0a08] px-8 py-3 rounded-lg font-bold uppercase text-xs tracking-[0.2em] transition-all shadow-xl">
@@ -156,12 +182,12 @@ const Community: React.FC = () => {
                <Loader2 className="w-8 h-8 animate-spin" />
                {t('common.loading')}
              </div>
-          ) : posts.length === 0 ? (
+          ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20 bg-[#1c120d] border border-dashed border-zinc-800 rounded-2xl">
               <p className="text-zinc-600 italic">{t('community.empty')}</p>
             </div>
           ) : (
-            posts.map(post => {
+            filteredPosts.map(post => {
               const hasLiked = user && post.liked_by?.includes(user.id);
               return (
                 <article key={post.id} className="bg-[#1c120d] border border-zinc-800 rounded-2xl flex flex-col hover:border-zinc-700 transition-all shadow-sm overflow-hidden group/card">
@@ -207,6 +233,63 @@ const Community: React.FC = () => {
             })
           )}
         </div>
+
+        {/* Sidebar */}
+        <aside className="lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right-4">
+          {/* Search Box */}
+          <div className="bg-[#1c120d] border border-zinc-800 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:-rotate-12 group-hover:opacity-10">
+              <Search className="w-32 h-32" />
+            </div>
+            
+            <h3 className="flex items-center gap-2 text-amber-500 font-bold uppercase tracking-widest text-sm mb-6 relative z-10">
+              <Search className="w-4 h-4" /> {t('community.sidebar_search_title')}
+            </h3>
+            
+            <form onSubmit={handleSidebarSearch} className="relative z-10">
+              <input 
+                type="text" 
+                value={sidebarSearch}
+                onChange={(e) => setSidebarSearch(e.target.value)}
+                placeholder={t('community.sidebar_search_placeholder')}
+                className="w-full bg-[#0f0a08] border border-zinc-800 rounded-xl py-4 pl-5 pr-12 text-zinc-100 outline-none focus:border-amber-600 focus:shadow-[0_0_15px_rgba(217,119,6,0.1)] transition-all placeholder:text-zinc-600"
+              />
+              <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-amber-500 transition-colors">
+                <Search className="w-5 h-5" />
+              </button>
+            </form>
+          </div>
+
+          {/* Rules Card */}
+          <div className="bg-[#1c120d] border border-amber-900/30 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none transition-transform group-hover:scale-110 group-hover:rotate-12 group-hover:opacity-10">
+              <BookOpen className="w-32 h-32" />
+            </div>
+            
+            <h3 className="flex items-center gap-2 text-amber-500 font-bold uppercase tracking-widest text-sm mb-6 relative z-10">
+              <BookOpen className="w-4 h-4" /> {t('community.sidebar_rules_title')}
+            </h3>
+            
+            <ul className="space-y-4 relative z-10 text-sm text-zinc-400">
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600/50 mt-0.5 text-[10px] uppercase tracking-widest">I</span>
+                <span>{t('community.sidebar_rules_1')}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600/50 mt-0.5 text-[10px] uppercase tracking-widest">II</span>
+                <span>{t('community.sidebar_rules_2')}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600/50 mt-0.5 text-[10px] uppercase tracking-widest">III</span>
+                <span>{t('community.sidebar_rules_3')}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-600/50 mt-0.5 text-[10px] uppercase tracking-widest">IV</span>
+                <span>{t('community.sidebar_rules_4')}</span>
+              </li>
+            </ul>
+          </div>
+        </aside>
       </div>
     </div>
   );
