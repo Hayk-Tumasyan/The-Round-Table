@@ -7,8 +7,8 @@ import { getProducts, createProduct, banishProduct, updateProductStock } from '.
 import { getTournaments, createTournament, banishTournament } from '../services/tournamentService';
 import { getAllOrders, updateOrderStatus } from '../services/orderService';
 import { sendMessage, listenToChat, deleteChatRoom } from '../services/chatService'; // Added deleteChatRoom
-import { getAllCitizens, toggleBanStatus } from '../services/userService';
-import { Post, Product, Tournament, OrderData, User } from '../types';
+import { getAllCitizens, toggleBanStatus, toggleUserRole } from '../services/userService';
+import { Post, Product, Tournament, OrderData, User, UserRole } from '../types';
 import { 
   Trash2, ShieldAlert, ScrollText, Loader2, Package, Plus, X, 
   Trophy, ShoppingCart, Check, Truck, Mail, Send, MessageSquare, 
@@ -88,6 +88,19 @@ const AdminPanel: React.FC = () => {
     if (confirm("Change Knight's voice status?")) {
       await toggleBanStatus(uid, currentStatus);
       setCitizens(prev => prev.map(c => c.id === uid ? { ...c, isBanned: !currentStatus } : c));
+    }
+  };
+
+  const handleToggleRole = async (uid: string, currentRole: UserRole, email: string) => {
+    if (email.toLowerCase() === 'hayko.tumasyan2004@gmail.com') {
+      alert("The Hand of the King cannot be displaced by ordinary means.");
+      return;
+    }
+
+    const newRole = currentRole === 'admin' ? 'User' : 'Admin';
+    if (confirm(`Proclaim this citizen as a new ${newRole}?`)) {
+      await toggleUserRole(uid, currentRole);
+      setCitizens(prev => prev.map(c => c.id === uid ? { ...c, role: currentRole === 'admin' ? 'user' : 'admin' } : c));
     }
   };
 
@@ -249,13 +262,36 @@ const AdminPanel: React.FC = () => {
       {activeTab === 'citizens' && (
         <div className="space-y-6 animate-in fade-in duration-300">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8"><h2 className="text-xl font-bold medieval-font text-zinc-300 uppercase tracking-widest flex items-center gap-3"><Users className="w-5 h-5 text-amber-500" /> {t('admin.tabs.citizens')}</h2><div className="flex gap-4 items-center w-full md:w-auto"><div className="relative flex-grow md:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" /><input className="w-full bg-[#0f0a08] border border-zinc-800 rounded-lg py-2 pl-10 pr-4 text-xs text-white outline-none" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} /></div><button onClick={refreshCitizens} className={`p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-amber-500 ${isRefreshing && 'animate-spin'}`}><RotateCcw className="w-4 h-4" /></button></div></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {citizens.filter(c => c.username.toLowerCase().includes(searchQuery.toLowerCase())).map(c => (
-              <div key={c.id} className="bg-[#1c120d] border border-zinc-800 rounded-xl p-6 flex items-center justify-between">
-                <div className="flex items-center gap-4"><div className={`p-3 rounded-lg ${c.isBanned ? 'bg-red-900/10' : 'bg-zinc-900'}`}><UserIcon className={`w-5 h-5 ${c.isBanned ? 'text-red-500' : 'text-zinc-600'}`} /></div><div><h3 className={`text-sm font-bold uppercase ${c.isBanned ? 'text-zinc-600 line-through' : 'text-zinc-200'}`}>{c.username}</h3><p className="text-[9px] text-zinc-500 uppercase">Rank: {c.role}</p></div></div>
-                {c.role !== 'admin' && (<button onClick={() => handleToggleBan(c.id, c.isBanned || false)} className={`px-4 py-2 rounded-lg text-[9px] font-bold uppercase transition-all ${c.isBanned ? 'bg-green-900/20 text-green-500 border border-green-900/30' : 'bg-red-900/10 text-red-500 border border-red-900/20'}`}>{c.isBanned ? "Restore" : "Banish"}</button>)}
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {citizens.filter(c => c.username.toLowerCase().includes(searchQuery.toLowerCase())).map(c => {
+              const isPrimaryAdmin = c.email?.toLowerCase() === 'hayko.tumasyan2004@gmail.com';
+              return (
+                <div key={c.id} className="bg-[#1c120d] border border-zinc-800 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4"><div className={`p-3 rounded-lg ${c.isBanned ? 'bg-red-900/10' : 'bg-zinc-900'}`}><UserIcon className={`w-5 h-5 ${c.isBanned ? 'text-red-500' : 'text-zinc-600'}`} /></div><div><h3 className={`text-sm font-bold uppercase ${c.isBanned ? 'text-zinc-600 line-through' : 'text-zinc-200'}`}>{c.username}</h3><p className="text-[9px] text-zinc-500 uppercase">Rank: <span className={c.role === 'admin' ? 'text-amber-500 font-bold' : ''}>{c.role}</span></p></div></div>
+                  <div className="flex items-center gap-2 self-end sm:self-auto">
+                    {!isPrimaryAdmin && (
+                      <>
+                        <button 
+                          onClick={() => handleToggleRole(c.id, c.role, c.email)} 
+                          className={`px-3 py-2 rounded-lg text-[9px] font-bold uppercase transition-all ${c.role === 'admin' ? 'bg-zinc-900 text-zinc-400 hover:text-zinc-200' : 'bg-amber-900/20 text-amber-500 border border-amber-900/30'}`}
+                        >
+                          {c.role === 'admin' ? "Demote" : "Promote"}
+                        </button>
+                        <button 
+                          onClick={() => handleToggleBan(c.id, c.isBanned || false)} 
+                          className={`px-3 py-2 rounded-lg text-[9px] font-bold uppercase transition-all ${c.isBanned ? 'bg-green-900/20 text-green-500 border border-green-900/30' : 'bg-red-900/10 text-red-500 border border-red-900/20'}`}
+                        >
+                          {c.isBanned ? "Restore" : "Banish"}
+                        </button>
+                      </>
+                    )}
+                    {isPrimaryAdmin && (
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-amber-500/50 bg-amber-900/10 px-3 py-2 rounded-lg border border-amber-900/20">Hand of the King</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

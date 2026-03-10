@@ -76,6 +76,16 @@ export const toggleBanStatus = async (uid: string, currentStatus: boolean) => {
   }
 };
 
+export const toggleUserRole = async (uid: string, currentRole: 'admin' | 'user') => {
+  try {
+    const newRole = currentRole === 'admin' ? 'user' : 'admin';
+    const userRef = doc(db, "users", uid);
+    await updateDoc(userRef, { role: newRole });
+  } catch (error) {
+    console.error("Role update failed:", error);
+  }
+};
+
 export const updateUserDossier = async (uid: string, data: any) => {
   try {
     const userRef = doc(db, "users", uid);
