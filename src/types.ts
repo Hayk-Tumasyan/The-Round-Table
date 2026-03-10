@@ -8,6 +8,7 @@ export interface User {
   bio?: string;
   preferred_lang?: string;
   isBanned?: boolean;
+  avatar_url?: string;
 }
 
 export interface Product {

@@ -57,7 +57,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               role: isHand ? 'admin' : latestData.role,
               bio: latestData.bio,
               preferred_lang: latestData.preferred_lang,
-              isBanned: latestData.isBanned || false 
+              isBanned: latestData.isBanned || false,
+              avatar_url: latestData.avatar_url || ""
             } as any);
           }
           setLoading(false);

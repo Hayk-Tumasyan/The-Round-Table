@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom'; // Added Link for navigation
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { getUserDossier, updateUserDossier, UserProfile } from '../services/userService';
-import { User as UserIcon, Shield, Map, MessageSquare, Save, Loader2, CheckCircle, Package } from 'lucide-react';
+import { User as UserIcon, Shield, Map, MessageSquare, Save, Loader2, CheckCircle, Package, Camera } from 'lucide-react';
 import { RoutePath } from '../types';
+import ImageCropperModal from '../components/ImageCropperModal';
+import { Area } from 'react-easy-crop';
 
 const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -22,6 +24,93 @@ const Profile: React.FC = () => {
       });
     }
   }, [user]);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  
+  // Cropper State
+  const [showCropper, setShowCropper] = useState(false);
+  const [selectedImageStr, setSelectedImageStr] = useState<string | null>(null);
+
+  const handleAvatarClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Read file for cropping
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setSelectedImageStr(reader.result as string);
+      setShowCropper(true);
+    };
+    
+    // Reset input so the same file can be selected again if canceled
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleCropComplete = async (croppedAreaPixels: Area) => {
+    setShowCropper(false);
+    if (!selectedImageStr || !user) return;
+    
+    setIsUploading(true);
+    try {
+      const processCroppedImage = (): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = selectedImageStr;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            // Fixed output size for avatars (e.g. 256x256)
+            canvas.width = 256;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            
+            if (ctx) {
+              // Draw the cropped portion of the original image onto the canvas
+              ctx.drawImage(
+                img,
+                croppedAreaPixels.x,
+                croppedAreaPixels.y,
+                croppedAreaPixels.width,
+                croppedAreaPixels.height,
+                0,
+                0,
+                256,
+                256
+              );
+              resolve(canvas.toDataURL('image/jpeg', 0.85));
+            } else {
+              reject(new Error("Canvas context null"));
+            }
+          };
+          img.onerror = (err) => reject(err);
+        });
+      };
+
+      const base64Url = await processCroppedImage();
+      await updateUserDossier(user.id, { avatar_url: base64Url });
+      updateUser({ avatar_url: base64Url });
+      if (profile) setProfile({ ...profile, avatar_url: base64Url });
+      
+    } catch (err) {
+      console.error("Failed to upload avatar:", err);
+      alert("Failed to process image.");
+    } finally {
+      setIsUploading(false);
+      setSelectedImageStr(null);
+    }
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
+    setSelectedImageStr(null);
+  };
 
   const handleSave = async () => {
     if (!user || !profile) return;
@@ -49,8 +138,32 @@ const Profile: React.FC = () => {
       <div className="bg-[#1c120d] border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl">
         {/* Profile Header */}
         <div className="h-32 bg-gradient-to-r from-red-900/20 to-amber-900/20 border-b border-zinc-800 flex items-end p-8">
-           <div className="w-24 h-24 rounded-2xl bg-[#0f0a08] border-4 border-[#1c120d] flex items-center justify-center -mb-12 shadow-xl">
-             <UserIcon className="w-12 h-12 text-zinc-700" />
+           <div 
+             onClick={handleAvatarClick}
+             className="relative w-24 h-24 rounded-2xl bg-[#0f0a08] border-4 border-[#1c120d] flex items-center justify-center -mb-12 shadow-xl cursor-pointer group overflow-hidden"
+           >
+             {isUploading ? (
+               <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+             ) : user?.avatar_url || profile?.avatar_url ? (
+               <img src={user?.avatar_url || profile?.avatar_url || ""} alt="Avatar" className="w-full h-full object-cover" />
+             ) : (
+               <UserIcon className="w-12 h-12 text-zinc-700" />
+             )}
+             
+             {/* Hover Overlay */}
+             {!isUploading && (
+               <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                 <Camera className="w-6 h-6 text-zinc-200" />
+               </div>
+             )}
+             
+             <input 
+               type="file" 
+               ref={fileInputRef} 
+               onChange={handleFileChange} 
+               accept="image/*" 
+               className="hidden" 
+             />
            </div>
         </div>
 
@@ -136,6 +249,15 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Render Cropper Modal */}
+      {showCropper && selectedImageStr && (
+        <ImageCropperModal 
+          imageSrc={selectedImageStr}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   );
 };
